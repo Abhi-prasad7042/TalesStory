@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-  const [open, setOpen] = React.useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleClick = () => {
     setIsOpen(!isOpen); // Toggle menu
@@ -35,7 +33,9 @@ function Header() {
 
         {/* Login/Signup Buttons */}
         <div className="hidden md:flex space-x-4">
+          <Link to="/login">
           <button className="bg-[#C8A1E0] text-black py-2 px-4 rounded hover:bg-purple-500">Log in</button>
+          </Link>
         </div>
 
         {/* Mobile Menu Icon */}
@@ -52,7 +52,7 @@ function Header() {
           <Link to="/" className="block py-2">Home</Link>
           <a href="#about" className="block py-2">About</a>
           <a href="#contact" className="block py-2">Contact</a>
-          <button className="block w-full text-white py-2 mt-2">Log in</button>
+          <Link to="/login"><button className="block w-full text-white py-2 mt-2">Log in</button></Link>
         </div>
       )}
     </nav>

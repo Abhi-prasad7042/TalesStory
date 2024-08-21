@@ -6,6 +6,7 @@ import NewStory from "./components/NewStory"
 import Home from './components/Home.jsx'
 import Login from "./components/Login.jsx"
 import "./index.css"
+import Register from './components/Register.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const appRouter = createBrowserRouter([
   {
     path:"/login",
     element: <Login />
+  },
+  {
+    path:"/Register",
+    element: <Register />
   }
   
 ])

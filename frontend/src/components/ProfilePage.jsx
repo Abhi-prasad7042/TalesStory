@@ -10,6 +10,7 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -60,6 +61,8 @@ function ProfilePage() {
   const handleImageClick = () => {
     if (isEditing) {
       fileInputRef.current.click();
+    } else {
+      setIsModalOpen(true);
     }
   };
 
@@ -191,12 +194,13 @@ function ProfilePage() {
             <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Your Contributions</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-gray-800 rounded-lg shadow-lg p-6">
-                <h3 className="text-2xl font-semibold text-[#FFEF20] mb-4">Stories Created</h3>
-                <p className="text-lg">{storiesCount} stories have been created by you!</p>
+              <div className="bg-gray-800 rounded-lg shadow-lg p-6 bg-opacity-80">
+                <h3 className="text-2xl font-semibold text-[#FFEF20] mb-2">Stories Created</h3>
+                <p className="text-4xl font-bold text-[#FFEF20] mb-1">{storiesCount}</p>
+                <p className="text-lg text-white">stories have been created by you!</p>
               </div>
 
-              <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <div className="bg-gray-800 rounded-lg shadow-lg p-6 bg-opacity-80">
                 <h3 className="text-2xl font-semibold text-[#FFEF20] mb-4">Stories Contributed To</h3>
                 <p className="text-md text-gray-400">
                   We are currently working on enhancing this feature. Stay tuned for updates, as this functionality will be available soon to display the stories you have contributed to.
@@ -218,6 +222,27 @@ function ProfilePage() {
             </button>
           </div>
         </section>
+
+        {/* Modal for full-size profile image */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50">
+            <div className="relative bg-gray-900 p-4 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
+              <button
+                className="absolute top-2 right-2 text-white"
+                onClick={() => setIsModalOpen(false)}
+              >
+                <FaTimes className="text-2xl" />
+              </button>
+              <div className="w-full h-full flex items-center justify-center">
+                <img
+                  src={profileImage || profileData?.image ? `http://127.0.0.1:8000${profileData.image}` : './profile.jpg'}
+                  alt="Full Profile"
+                  className="w-full h-full object-contain rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

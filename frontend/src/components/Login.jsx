@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
+import ShimmerEffect from './ShimmerEffect'; // Import the ShimmerEffect component
 
 function Login() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate();  // Initialize navigation
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false); // State for loading
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -16,36 +19,37 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
     try {
-      // Request to obtain tokens
       const response = await axios.post('http://127.0.0.1:8000/token/', {
         email,
         password,
       });
 
       const { access, refresh } = response.data;
-
-      // Store tokens in localStorage or sessionStorage
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
 
-      // Fetch user profile using the access token
       const profileResponse = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       });
 
-      // Print user profile details to the console
       console.log('User Profile Details:', profileResponse.data);
 
-      // Redirect to the homepage or dashboard
-      navigate('/'); // Change this to your desired route
+      navigate('/'); // Redirect after login
     } catch (err) {
       setError('Invalid email or password');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
+
+  if (loading) {
+    return <ShimmerEffect />; // Show shimmer effect while loading
+  }
 
   return (
     <div className="min-h-screen bg-black">
@@ -57,8 +61,8 @@ function Login() {
 
           <div className="hidden md:flex flex-grow justify-center space-x-10">
             <Link to="/" className="text-white hover:text-green-400">Home</Link>
-            <a href="#about" className="text-white hover:text-green-400">About</a>
-            <a href="#contact" className="text-white hover:text-green-400">Contact</a>
+            <Link to="/about" className="text-white hover:text-green-400">About</Link>
+            <Link to="/contact" className="text-white hover:text-green-400">Contact</Link>
           </div>
 
           <div className="md:hidden">
@@ -71,8 +75,8 @@ function Login() {
         {isOpen && (
           <div className="md:hidden bg-black text-white p-4">
             <Link to="/" className="block py-2">Home</Link>
-            <a href="#about" className="block py-2">About</a>
-            <a href="#contact" className="block py-2">Contact</a>
+            <Link to="/about" className="block py-2">About</Link>
+            <Link to="/contact" className="block py-2">Contact</Link>
           </div>
         )}
       </nav>
@@ -104,17 +108,24 @@ function Login() {
                     required
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 relative">
                   <label htmlFor="password" className="block text-white mb-1">Password</label>
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     id="password"
                     name="password"
-                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
+                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 pr-10"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-[51px] transform -translate-y-1/2 text-white"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
                 </div>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <div className="mb-4">
@@ -126,7 +137,7 @@ function Login() {
                   </button>
                 </div>
                 <div className="text-center text-white">
-                  <Link to="/forgot-password" className="text-[#D388F8] hover:underline">Forgot password?</Link>
+                  {/* <Link to="/forgot-password" className="text-[#D388F8] hover:underline">Forgot password?</Link> */}
                 </div>
                 <div className="text-center text-white mt-4">
                   <p>Don't have an account? <Link to="/register" className="text-[#D388F8] hover:underline">Register Now</Link></p>

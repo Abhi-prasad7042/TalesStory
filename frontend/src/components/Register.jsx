@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
 
 function Register() {
@@ -13,6 +13,8 @@ function Register() {
   });
   const [errors, setErrors] = useState(null);
   const [success, setSuccess] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility toggle
+  const [showPassword2, setShowPassword2] = useState(false); // State for confirm password visibility toggle
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -56,8 +58,8 @@ function Register() {
 
           <div className="hidden md:flex flex-grow justify-center space-x-10">
             <Link to="/" className="text-white hover:text-green-400">Home</Link>
-            <a href="#about" className="text-white hover:text-green-400">About</a>
-            <a href="#contact" className="text-white hover:text-green-400">Contact</a>
+            <Link to="/about" className="text-white hover:text-green-400">About</Link>
+            <Link to="/contact" className="text-white hover:text-green-400">Contact</Link>
           </div>
 
           <div className="md:hidden">
@@ -70,8 +72,8 @@ function Register() {
         {isOpen && (
           <div className="md:hidden bg-black text-white p-4">
             <Link to="/" className="block py-2">Home</Link>
-            <a href="#about" className="block py-2">About</a>
-            <a href="#contact" className="block py-2">Contact</a>
+            <Link to="/about" className="block py-2">About</Link>
+            <Link to="/contact" className="block py-2">Contact</Link>
           </div>
         )}
       </nav>
@@ -112,25 +114,39 @@ function Register() {
                     className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 relative">
                   <label htmlFor="password" className="block text-white mb-1">Password</label>
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     id="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
+                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 pr-10"
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-[51px] transform -translate-y-1/2 text-white"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 relative">
                   <label htmlFor="password2" className="block text-white mb-1">Confirm Password</label>
                   <input
-                    type="password"
+                    type={showPassword2 ? 'text' : 'password'}
                     id="password2"
                     value={formData.password2}
                     onChange={handleChange}
-                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
+                    className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 pr-10"
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-[51px] transform -translate-y-1/2 text-white"
+                    onClick={() => setShowPassword2(!showPassword2)}
+                  >
+                    {showPassword2 ? <FaEyeSlash /> : <FaEye />}
+                  </button>
                 </div>
                 {errors && (
                   <div className="mb-4 text-red-500">

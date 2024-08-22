@@ -85,7 +85,7 @@ function Header() {
         <div className="hidden md:flex flex-grow justify-center space-x-4">
           <Link to="/" className="text-white hover:text-green-400">Home</Link>
           <Link to="/about" href="#about" className="text-white hover:text-green-400">About</Link>
-          <a href="#contact" className="text-white hover:text-green-400">Contact</a>
+          <Link to="/contact" className="text-white hover:text-green-400">Contact</Link>
         </div>
 
         <div className="hidden md:flex space-x-4 relative">
@@ -130,7 +130,7 @@ function Header() {
         <div className="md:hidden bg-black text-white p-4">
           <Link to="/" className="block py-2">Home</Link>
           <Link to="/about" href="#about" className="block py-2">About</Link>
-          <a href="#contact" className="block py-2">Contact</a>
+          <Link to="/contact" className="block py-2">Contact</Link>
           <Link to="/profile" className="block py-2">Profile</Link>
           {isLoggedIn ? (
             <button onClick={handleLogout} className="block w-full bg-gray-400 text-black py-2 mt-2 rounded-lg hover:bg-gray-700 hover:text-white transition duration-200">Logout</button>

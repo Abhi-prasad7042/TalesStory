@@ -10,6 +10,7 @@ import Register from './components/Register.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
 import StoryDetail from './components/StoryDetail.jsx'
 import About from './components/About.jsx'
+import Contact from './components/Contact.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const appRouter = createBrowserRouter([
       {
         path:"/about",
         element: <About />
+      },
+      {
+        path:"/contact",
+        element: <Contact />
       },
       {
         path: "/newstory",

@@ -35,6 +35,7 @@ function ProfilePage() {
         console.error(err);
         setError('Failed to load profile data');
         setLoading(false);
+        
       }
     };
 
@@ -91,7 +92,7 @@ function ProfilePage() {
   }
 
   if (error) {
-    return <div className="text-center text-red-500 mt-20">{error}</div>;
+    return navigate('/login');;
   }
 
   return (

@@ -9,6 +9,7 @@ import "./index.css"
 import Register from './components/Register.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
 import StoryDetail from './components/StoryDetail.jsx'
+import About from './components/About.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -20,12 +21,16 @@ const appRouter = createBrowserRouter([
         element: <Home />
       },
       {
+        path:"/about",
+        element: <About />
+      },
+      {
         path: "/newstory",
-        element: <NewStory/>
+        element: < NewStory/>
       },
       {
         path: "/profile",
-        element: <ProfilePage/>
+        element:  <ProfilePage/>
       },
       {
         path:"/story/:id",

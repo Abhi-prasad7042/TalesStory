@@ -84,7 +84,7 @@ function Header() {
 
         <div className="hidden md:flex flex-grow justify-center space-x-4">
           <Link to="/" className="text-white hover:text-green-400">Home</Link>
-          <a href="#about" className="text-white hover:text-green-400">About</a>
+          <Link to="/about" href="#about" className="text-white hover:text-green-400">About</Link>
           <a href="#contact" className="text-white hover:text-green-400">Contact</a>
         </div>
 
@@ -129,7 +129,7 @@ function Header() {
       {isOpen && (
         <div className="md:hidden bg-black text-white p-4">
           <Link to="/" className="block py-2">Home</Link>
-          <a href="#about" className="block py-2">About</a>
+          <Link to="/about" href="#about" className="block py-2">About</Link>
           <a href="#contact" className="block py-2">Contact</a>
           <Link to="/profile" className="block py-2">Profile</Link>
           {isLoggedIn ? (

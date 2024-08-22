@@ -65,7 +65,7 @@ function StoriesList() {
 
         {/* Button to See All Stories */}
         <div className="text-center mt-8">
-          <a href="/all-stories" className="bg-purple-400 text-black py-2 px-6 rounded-lg font-semibold hover:bg-purple-600">
+          <a href="#" className="bg-purple-400 text-black py-2 px-6 rounded-lg font-semibold hover:bg-purple-600">
             See All Stories
           </a>
         </div>

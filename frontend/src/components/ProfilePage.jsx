@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FaEdit, FaTimes } from 'react-icons/fa'; // Import edit and close icons
+import { FaEdit, FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
   const [profileImage, setProfileImage] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [isEditing, setIsEditing] = useState(false);
 
   const fileInputRef = useRef(null);
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -30,7 +32,7 @@ function ProfilePage() {
         setProfileData(profileResponse.data);
         setLoading(false);
       } catch (err) {
-        console.error(err); // Debugging log
+        console.error(err);
         setError('Failed to load profile data');
         setLoading(false);
       }
@@ -47,7 +49,7 @@ function ProfilePage() {
 
   const handleImageClick = () => {
     if (isEditing) {
-      fileInputRef.current.click(); // Trigger file input click if in edit mode
+      fileInputRef.current.click();
     }
   };
 
@@ -71,7 +73,6 @@ function ProfilePage() {
         },
       });
 
-      // Optionally refresh profile data after update
       const profileResponse = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -96,7 +97,6 @@ function ProfilePage() {
   return (
     <div className="bg-gray-900 text-white min-h-screen p-8">
       <div className="relative max-w-5xl mx-auto">
-        {/* Conditional Icon Rendering */}
         <button
           className="absolute top-4 right-4 text-blue-500"
           onClick={() => setIsEditing(!isEditing)}
@@ -175,7 +175,7 @@ function ProfilePage() {
           )}
         </div>
 
-        <section className="bg-gray-900 text-white py-12 px-6">
+        <section className="bg-gray-900 text-white py-2 px-6">
           <div className="max-w-5xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Your Contributions</h2>
 
@@ -190,6 +190,20 @@ function ProfilePage() {
                 <p className="text-lg">You have contributed to 12 stories so far!</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* New Section for Creating a Story */}
+        <section className="bg-gray-900 text-white py-4 px-6 mb-2">
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Create or Upload a Story</h2>
+            <p className="text-lg mb-6">Start a new story or upload an existing one to share with the community.</p>
+            <button
+              onClick={() => navigate('/newstory')} // Navigate to new story page
+              className="bg-[#FFEF20] text-black py-2 px-4 rounded text-base font-semibold hover:bg-[#E86B00]"
+            >
+              Start a New Story
+            </button>
           </div>
         </section>
       </div>

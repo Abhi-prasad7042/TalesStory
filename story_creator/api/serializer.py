@@ -56,3 +56,20 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'full_name', 'comp_name', 'bio', 'image', 'verified']
+
+
+class StorySerializer(serializers.ModelSerializer):
+    created_by = UserSerializer(read_only=True)  # Serialize related user
+    image = serializers.ImageField(required=False)  # Optional field for image
+
+    class Meta:
+        model = Story
+        fields = ['id', 'title', 'description', 'created_by', 'image', 'is_complete', 'created_at']
+
+class ContributionSerializer(serializers.ModelSerializer):
+    contributed_by = UserSerializer(read_only=True)  # Serialize related user
+    story = StorySerializer(read_only=True)  # Serialize related story
+
+    class Meta:
+        model = Contribution
+        fields = ['id', 'story', 'contributed_by', 'contribution_text', 'contributed_at']

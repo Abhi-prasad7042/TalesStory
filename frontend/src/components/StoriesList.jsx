@@ -1,9 +1,42 @@
-import React from 'react';
-import StoryCard from './StoryCard';
-import { storiesData } from '../utils/constant';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import StoryCard from './StoryCard'; // Ensure the path is correct
 
 function StoriesList() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/stories/');
+        
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        // Sort stories by creation date (newest first)
+        const sortedStories = data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        
+        // Get only the top 6 stories
+        const latestStories = sortedStories.slice(0, 6);
+
+        setStories(latestStories);
+      } catch (error) {
+        setError(`Error: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStories();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div className="bg-gray-200 py-8">
       <div className="container mx-auto px-4">
@@ -15,20 +48,25 @@ function StoriesList() {
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {storiesData.map((story) => (
-            <StoryCard
-              key={story.id}
-              image={story.image}
-              title={story.title}
-              excerpt={story.excerpt}
-              fullStory={story.fullStory} // Pass the full story
-            />
-          ))}
+          {stories.length > 0 ? (
+            stories.map((story) => (
+              <StoryCard
+                key={story.id}
+                id={story.id} // Pass the id here
+                image={story.image || 'default-image.jpg'}
+                title={story.title}
+                excerpt={story.description.substring(0, 100) + '...'}
+                fullStory={story.description}
+              />
+            ))
+          ) : (
+            <p>No stories available</p>
+          )}
         </div>
 
         {/* Button to See All Stories */}
         <div className="text-center mt-8">
-          <a to="/all-stories" className="bg-purple-400 text-black py-2 px-6 rounded-lg font-semibold hover:bg-purple-600 cursor-pointer">
+          <a href="/all-stories" className="bg-purple-400 text-black py-2 px-6 rounded-lg font-semibold hover:bg-purple-600">
             See All Stories
           </a>
         </div>

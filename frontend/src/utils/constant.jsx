@@ -1,47 +1,47 @@
-export const storiesData = [
-  {
-    id: 1,
-    image: './mj.jpeg',
-    title: 'A Mysterious Journey',
-    excerpt: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey...',
-    fullStory: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey to find the lost artifact that held the power to change the fate of the world. With courage and wisdom, he overcame many challenges, including fierce creatures and treacherous landscapes. His quest led him to a hidden cave where the artifact awaited, but he soon realized that the true power was within himself all along.'
-  },
-  {
-    id: 2,
-    image: './tlk.jpeg',
-    title: 'The Lost Kingdom',
-    excerpt: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets...',
-    fullStory: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets that had been buried for centuries. The kingdom was said to be cursed, and only a true hero could break the spell. The warrior faced trials and battles against dark forces, unraveling mysteries that revealed the kingdom’s rich history and the truth about its fall. In the end, he restored peace and prosperity to the land.'
-  },
-  {
-    id: 3,
-    image: './ais.jpeg',
-    title: 'Adventures in Space',
-    excerpt: 'As the spaceship soared through the galaxy, the crew faced unimaginable challenges...',
-    fullStory: 'As the spaceship soared through the galaxy, the crew faced unimaginable challenges on their quest to explore new worlds. From navigating asteroid fields to encountering alien species, each adventure tested their skills and unity. They discovered a hidden alien civilization with advanced technology and forged an alliance that would change the course of interstellar relations forever. Their journey was one of discovery, danger, and lasting friendships.'
-  },
-  {
-    id: 4,
-    image: './tmf.jpg',
-    title: 'The Magical Forest',
-    excerpt: 'Deep within the magical forest, strange creatures guarded the hidden treasures...',
-    fullStory: 'Deep within the magical forest, strange creatures guarded the hidden treasures that held the power to grant wishes. A group of adventurers ventured into the forest, facing enchanted beings and solving riddles to uncover the forest’s secrets. They learned that the true magic lay not in the treasures but in the bonds they formed and the lessons they learned about courage, friendship, and the power of believing in oneself.'
-  },
-  {
-    id: 5,
-    image: './mj.jpeg',
-    title: 'A Mysterious Journey',
-    excerpt: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey...',
-    fullStory: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey to find the lost artifact that held the power to change the fate of the world. With courage and wisdom, he overcame many challenges, including fierce creatures and treacherous landscapes. His quest led him to a hidden cave where the artifact awaited, but he soon realized that the true power was within himself all along.'
-  },
-  {
-    id: 6,
-    image: './tlk.jpeg',
-    title: 'The Lost Kingdom',
-    excerpt: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets...',
-    fullStory: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets that had been buried for centuries. The kingdom was said to be cursed, and only a true hero could break the spell. The warrior faced trials and battles against dark forces, unraveling mysteries that revealed the kingdom’s rich history and the truth about its fall. In the end, he restored peace and prosperity to the land.'
-  }
-];
+// export const storiesData = [
+//   {
+//     id: 1,
+//     image: './mj.jpeg',
+//     title: 'A Mysterious Journey',
+//     excerpt: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey...',
+//     fullStory: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey to find the lost artifact that held the power to change the fate of the world. With courage and wisdom, he overcame many challenges, including fierce creatures and treacherous landscapes. His quest led him to a hidden cave where the artifact awaited, but he soon realized that the true power was within himself all along.'
+//   },
+//   {
+//     id: 2,
+//     image: './tlk.jpeg',
+//     title: 'The Lost Kingdom',
+//     excerpt: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets...',
+//     fullStory: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets that had been buried for centuries. The kingdom was said to be cursed, and only a true hero could break the spell. The warrior faced trials and battles against dark forces, unraveling mysteries that revealed the kingdom’s rich history and the truth about its fall. In the end, he restored peace and prosperity to the land.'
+//   },
+//   {
+//     id: 3,
+//     image: './ais.jpeg',
+//     title: 'Adventures in Space',
+//     excerpt: 'As the spaceship soared through the galaxy, the crew faced unimaginable challenges...',
+//     fullStory: 'As the spaceship soared through the galaxy, the crew faced unimaginable challenges on their quest to explore new worlds. From navigating asteroid fields to encountering alien species, each adventure tested their skills and unity. They discovered a hidden alien civilization with advanced technology and forged an alliance that would change the course of interstellar relations forever. Their journey was one of discovery, danger, and lasting friendships.'
+//   },
+//   {
+//     id: 4,
+//     image: './tmf.jpg',
+//     title: 'The Magical Forest',
+//     excerpt: 'Deep within the magical forest, strange creatures guarded the hidden treasures...',
+//     fullStory: 'Deep within the magical forest, strange creatures guarded the hidden treasures that held the power to grant wishes. A group of adventurers ventured into the forest, facing enchanted beings and solving riddles to uncover the forest’s secrets. They learned that the true magic lay not in the treasures but in the bonds they formed and the lessons they learned about courage, friendship, and the power of believing in oneself.'
+//   },
+//   {
+//     id: 5,
+//     image: './mj.jpeg',
+//     title: 'A Mysterious Journey',
+//     excerpt: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey...',
+//     fullStory: 'Once upon a time, in a land far away, a young hero embarked on a mysterious journey to find the lost artifact that held the power to change the fate of the world. With courage and wisdom, he overcame many challenges, including fierce creatures and treacherous landscapes. His quest led him to a hidden cave where the artifact awaited, but he soon realized that the true power was within himself all along.'
+//   },
+//   {
+//     id: 6,
+//     image: './tlk.jpeg',
+//     title: 'The Lost Kingdom',
+//     excerpt: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets...',
+//     fullStory: 'In the ancient lands of the Lost Kingdom, a brave warrior discovered the hidden secrets that had been buried for centuries. The kingdom was said to be cursed, and only a true hero could break the spell. The warrior faced trials and battles against dark forces, unraveling mysteries that revealed the kingdom’s rich history and the truth about its fall. In the end, he restored peace and prosperity to the land.'
+//   }
+// ];
 
 
 export const ReviewData = [

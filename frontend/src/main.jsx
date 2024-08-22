@@ -8,6 +8,7 @@ import Login from "./components/Login.jsx"
 import "./index.css"
 import Register from './components/Register.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
+import StoryDetail from './components/StoryDetail.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/profile",
         element: <ProfilePage/>
+      },
+      {
+        path:"/story/:id",
+        element: <StoryDetail />
       }
     ]
   },

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.text import slugify
 
 # Custom User model
 class User(AbstractUser):
@@ -35,3 +36,31 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+class Story(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)  # For SEO-friendly URLs
+    description = models.TextField()
+    created_by = models.ForeignKey(User, related_name='created_stories', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='story_images/', null=True, blank=True)
+    is_complete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # To track updates
+
+    def __str__(self):
+        return self.title
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+class Contribution(models.Model):
+    story = models.ForeignKey(Story, related_name='contributions', on_delete=models.CASCADE)
+    contributed_by = models.ForeignKey(User, related_name='contributions', on_delete=models.CASCADE)
+    contribution_text = models.TextField()
+    contributed_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # To track updates
+
+    def __str__(self):
+        return f'Contribution by {self.contributed_by.username} to "{self.story.title}"'

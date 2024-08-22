@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .models import *
 from rest_framework.decorators import api_view, permission_classes
-from .serializer import RegisterSerli, Tokens, ProfileSerializer
+from .serializer import RegisterSerli, Tokens, ProfileSerializer, StorySerializer, ContributionSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
+
 
 class MyTokens(TokenObtainPairView):
     serial_class = Tokens
@@ -46,3 +48,27 @@ def user_profile(request):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class StoryListCreateView(generics.ListCreateAPIView):
+    queryset = Story.objects.all()
+    serializer_class = StorySerializer
+    # No permission_classes required here for public access
+
+class StoryRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Story.objects.all()
+    serializer_class = StorySerializer
+
+# Contribution Views
+
+class ContributionListCreateView(generics.ListCreateAPIView):
+    queryset = Contribution.objects.all()
+    serializer_class = ContributionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(contributed_by=self.request.user)
+
+class ContributionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Contribution.objects.all()
+    serializer_class = ContributionSerializer
+    permission_classes = [IsAuthenticated]

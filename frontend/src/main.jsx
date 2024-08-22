@@ -7,6 +7,7 @@ import Home from './components/Home.jsx'
 import Login from "./components/Login.jsx"
 import "./index.css"
 import Register from './components/Register.jsx'
+import ProfilePage from './components/ProfilePage.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/newstory",
         element: <NewStory/>
+      },
+      {
+        path: "/profile",
+        element: <ProfilePage/>
       }
     ]
   },

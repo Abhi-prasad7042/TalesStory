@@ -1,13 +1,50 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import axios from 'axios';
 
 function Register() {
   const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    username: '',
+    password: '',
+    password2: ''
+  });
+  const [errors, setErrors] = useState(null);
+  const [success, setSuccess] = useState('');
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await axios.post('http://localhost:8000/register/', {
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        password2: formData.password2,
+      });
+      setSuccess('Registration successful! Please log in.');
+      setErrors(null);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setErrors(error.response.data);
+      } else {
+        setErrors({ non_field_errors: 'An unexpected error occurred' });
+      }
+      setSuccess('');
+    }
+  };
+  
 
   return (
     <div className="min-h-screen bg-black">
@@ -54,12 +91,14 @@ function Register() {
                 <h2 className="text-3xl font-bold text-[#D388F8]">Join Us!</h2>
                 <p className="text-lg text-white mt-2">Create your TalesTogether account.</p>
               </div>
-              <form >
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label htmlFor="email" className="block text-white mb-1">Email address</label>
                   <input
                     type="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
                   />
                 </div>
@@ -68,6 +107,8 @@ function Register() {
                   <input
                     type="text"
                     id="username"
+                    value={formData.username}
+                    onChange={handleChange}
                     className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
                   />
                 </div>
@@ -76,6 +117,8 @@ function Register() {
                   <input
                     type="password"
                     id="password"
+                    value={formData.password}
+                    onChange={handleChange}
                     className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
                   />
                 </div>
@@ -84,9 +127,23 @@ function Register() {
                   <input
                     type="password"
                     id="password2"
+                    value={formData.password2}
+                    onChange={handleChange}
                     className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600"
                   />
                 </div>
+                {errors && (
+                  <div className="mb-4 text-red-500">
+                    {Object.values(errors).map((error, index) => (
+                      <div key={index}>{error}</div>
+                    ))}
+                  </div>
+                )}
+                {success && (
+                  <div className="mb-4 text-green-500">
+                    {success}
+                  </div>
+                )}
                 <div className="mb-4">
                   <button
                     type="submit"

@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 function ProfilePage() {
   const [profileImage, setProfileImage] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [storiesCount, setStoriesCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const fileInputRef = useRef(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -23,19 +24,27 @@ function ProfilePage() {
           return;
         }
 
+        // Fetch profile data
         const profileResponse = await axios.get('http://127.0.0.1:8000/api/user-profile/', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-
         setProfileData(profileResponse.data);
+
+        // Fetch all stories
+        const storiesResponse = await axios.get('http://127.0.0.1:8000/api/stories/');
+        const stories = storiesResponse.data;
+
+        // Calculate the number of stories created by the user
+        const userStoriesCount = stories.filter(story => story.created_by.username === 'abhis').length;
+        setStoriesCount(userStoriesCount);
+
         setLoading(false);
       } catch (err) {
         console.error(err);
         setError('Failed to load profile data');
         setLoading(false);
-        
       }
     };
 
@@ -92,7 +101,8 @@ function ProfilePage() {
   }
 
   if (error) {
-    return navigate('/login');;
+    navigate('/login');
+    return null; // Prevent rendering anything after navigation
   }
 
   return (
@@ -183,24 +193,25 @@ function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-gray-800 rounded-lg shadow-lg p-6">
                 <h3 className="text-2xl font-semibold text-[#FFEF20] mb-4">Stories Created</h3>
-                <p className="text-lg">5 stories have been created by you!</p>
+                <p className="text-lg">{storiesCount} stories have been created by you!</p>
               </div>
 
               <div className="bg-gray-800 rounded-lg shadow-lg p-6">
                 <h3 className="text-2xl font-semibold text-[#FFEF20] mb-4">Stories Contributed To</h3>
-                <p className="text-lg">You have contributed to 12 stories so far!</p>
+                <p className="text-md text-gray-400">
+                  We are currently working on enhancing this feature. Stay tuned for updates, as this functionality will be available soon to display the stories you have contributed to.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* New Section for Creating a Story */}
         <section className="bg-gray-900 text-white py-4 px-6 mb-2">
           <div className="max-w-5xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Create or Upload a Story</h2>
             <p className="text-lg mb-6">Start a new story or upload an existing one to share with the community.</p>
             <button
-              onClick={() => navigate('/newstory')} // Navigate to new story page
+              onClick={() => navigate('/newstory')}
               className="bg-[#FFEF20] text-black py-2 px-4 rounded text-base font-semibold hover:bg-[#E86B00]"
             >
               Start a New Story

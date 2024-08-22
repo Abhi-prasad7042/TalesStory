@@ -1,6 +1,7 @@
 import React from 'react';
-
+import Header from './Header';
 const ShimmerEffect = () => (
+
   <div className="w-full h-screen bg-black flex items-center justify-center">
     <div className="w-full max-w-[1200px] bg-gray-800 rounded-lg p-6 -mt-20">
       <div className="flex h-[350px] flex-col md:flex-row items-center justify-between">

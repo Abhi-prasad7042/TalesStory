@@ -33,7 +33,7 @@ function StoryCard({ id, image, title, excerpt, fullStory }) {
     }
   }, [id]);
 
-  // console.log(story)
+  console.log(story)
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">

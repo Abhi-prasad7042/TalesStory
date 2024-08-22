@@ -36,7 +36,6 @@ function StoriesList() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-
   return (
     <div className="bg-gray-200 py-8">
       <div className="container mx-auto px-4">

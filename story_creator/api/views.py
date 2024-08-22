@@ -7,7 +7,10 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
+import logging
 
+
+logger = logging.getLogger(__name__)
 
 class MyTokens(TokenObtainPairView):
     serial_class = Tokens
@@ -52,7 +55,10 @@ def user_profile(request):
 class StoryListCreateView(generics.ListCreateAPIView):
     queryset = Story.objects.all()
     serializer_class = StorySerializer
-    # No permission_classes required here for public access
+
+    def perform_create(self, serializer):
+        logger.info(f"Creating story with data: {self.request.data}")
+        serializer.save(created_by=self.request.user)
 
 class StoryRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Story.objects.all()

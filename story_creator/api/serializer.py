@@ -64,7 +64,7 @@ class StorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Story
-        fields = ['id', 'title', 'description', 'created_by', 'image', 'is_complete', 'created_at']
+        fields = ['id','title', 'description', 'image', 'created_by', 'created_at']
 
 class ContributionSerializer(serializers.ModelSerializer):
     contributed_by = UserSerializer(read_only=True)  # Serialize related user

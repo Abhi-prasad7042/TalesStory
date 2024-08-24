@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FaEdit, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import ShimmerEffectProfile from './ShimmerEffectProfile';
+import LoadingSpinner from './LoadingSpinner';
 
 function ProfilePage() {
   const [profileImage, setProfileImage] = useState(null);
@@ -11,6 +13,7 @@ function ProfilePage() {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -38,8 +41,9 @@ function ProfilePage() {
         const stories = storiesResponse.data;
 
         // Calculate the number of stories created by the user
-        const userStoriesCount = stories.filter(story => story.created_by.username === 'abhis').length;
+        const userStoriesCount = stories.filter(story => story.created_by.username === profileResponse.data.username).length;
         setStoriesCount(userStoriesCount);
+        
 
         setLoading(false);
       } catch (err) {
@@ -66,9 +70,15 @@ function ProfilePage() {
     }
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
     try {
+      setIsUpdating(true); // Show the updating modal
+
       const formData = new FormData();
       formData.append('full_name', profileData.full_name);
       formData.append('comp_name', profileData.comp_name);
@@ -96,16 +106,18 @@ function ProfilePage() {
     } catch (err) {
       console.error(err);
       setError('Failed to update profile');
+    } finally {
+      setIsUpdating(false); // Hide the updating modal
     }
   };
 
   if (loading) {
-    return <div className="text-center text-white mt-20">Loading profile...</div>;
+    return <ShimmerEffectProfile />;
   }
 
   if (error) {
-    navigate('/login');
-    return null; // Prevent rendering anything after navigation
+    // navigate('/login');
+    return <div>{error}</div>;
   }
 
   return (
@@ -209,41 +221,36 @@ function ProfilePage() {
             </div>
           </div>
         </section>
-
-        <section className="bg-gray-900 text-white py-4 px-6 mb-2">
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Create or Upload a Story</h2>
-            <p className="text-lg mb-6">Start a new story or upload an existing one to share with the community.</p>
-            <button
-              onClick={() => navigate('/newstory')}
-              className="bg-[#FFEF20] text-black py-2 px-4 rounded text-base font-semibold hover:bg-[#E86B00]"
-            >
-              Start a New Story
-            </button>
-          </div>
-        </section>
-
-        {/* Modal for full-size profile image */}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50">
-            <div className="relative bg-gray-900 p-4 rounded-lg" style={{ width: '80vw', height: '80vh' }}>
-              <button
-                className="absolute top-2 right-2 text-white"
-                onClick={() => setIsModalOpen(false)}
-              >
-                <FaTimes className="text-2xl" />
-              </button>
-              <div className="w-full h-full flex items-center justify-center">
-                <img
-                  src={profileImage || profileData?.image ? `http://127.0.0.1:8000${profileData.image}` : './profile.jpg'}
-                  alt="Full Profile"
-                  className="w-full h-full object-contain rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Modal for image preview */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="relative w-4/5 h-4/5 bg-gray-800 p-4 rounded-lg flex flex-col items-center justify-center bg-opacity-85">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-white"
+              onClick={closeModal}
+            >
+              <FaTimes size={24} />
+            </button>
+            <img
+              src={profileImage || `http://127.0.0.1:8000${profileData.image}`}
+              alt="Profile Preview"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Loading spinner during profile update */}
+      {isUpdating && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="bg-gray-800 text-black p-8 rounded-lg shadow-lg flex flex-col items-center">
+            <LoadingSpinner />
+            <p className="text-lg mt-4 text-[#FFEF20]">Profile is updating...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

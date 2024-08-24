@@ -51,11 +51,12 @@ class RegisterSerli(serializers.ModelSerializer):
         return user
     
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     image = serializers.ImageField(required=False)  # Optional field for image
 
     class Meta:
         model = Profile
-        fields = ['id', 'full_name', 'comp_name', 'bio', 'image', 'verified']
+        fields = ['id', 'full_name', 'comp_name', 'bio', 'image', 'verified', 'username']
 
 
 class StorySerializer(serializers.ModelSerializer):

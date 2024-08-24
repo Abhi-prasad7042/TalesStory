@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ShimmerEffect from './ShimmerEffect'; // Import the ShimmerEffect component
+import ShimmerEffectProfile from './ShimmerEffectProfile'; // Import the ShimmerEffect component
 
 function StoryDetail() {
   const { id } = useParams();  // Get id from the URL params
@@ -36,7 +36,7 @@ function StoryDetail() {
   return (
     <div>
       {!story ? (
-        <ShimmerEffect /> // Show shimmer effect while data is loading
+        <ShimmerEffectProfile /> // Show shimmer effect while data is loading
       ) : (
         <>
           <img src={story.image} alt={story.title} className="w-full h-auto mb-6 shadow-md" />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars, FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
-import ShimmerEffect from './ShimmerEffect'; // Import the ShimmerEffect component
+import ShimmerEffectLogin from './ShimmerEffectLogin'; // Import the ShimmerEffect component
 
 function Login() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,7 +48,7 @@ function Login() {
   };
 
   if (loading) {
-    return <ShimmerEffect />; // Show shimmer effect while loading
+    return <ShimmerEffectLogin />; // Show shimmer effect while loading
   }
 
   return (

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from rest_framework.decorators import api_view, permission_classes
-from .serializer import RegisterSerli, Tokens, ProfileSerializer, StorySerializer, ContributionSerializer
+from .serializer import RegisterSerli, Tokens, ProfileSerializer, StorySerializer, ContributionSerializer, ContactSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -78,3 +78,15 @@ class ContributionRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIVie
     queryset = Contribution.objects.all()
     serializer_class = ContributionSerializer
     permission_classes = [IsAuthenticated]
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def contact_view(request):
+    user = request.user
+    serializer = ContactSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        Contact.objects.create(user=user, **serializer.validated_data)
+        return Response({'message': 'Your message has been sent!'}, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

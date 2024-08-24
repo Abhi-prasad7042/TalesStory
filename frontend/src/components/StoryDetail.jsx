@@ -25,6 +25,7 @@ function StoryDetail() {
       fetchStory();
     }
   }, [id]);
+
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const date = new Date(dateString);
@@ -34,23 +35,23 @@ function StoryDetail() {
   if (error) return <p className="text-red-500 text-center mt-4">{error}</p>;
 
   return (
-    <div>
+    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-10">
       {!story ? (
         <ShimmerEffectProfile /> // Show shimmer effect while data is loading
       ) : (
-        <>
-          <img src={story.image} alt={story.title} className="w-full h-auto mb-6 shadow-md" />
-          <div className="container mx-auto px-4 py-8 bg-gray-100 rounded-lg shadow-lg">
-            <h1 className="text-4xl font-bold text-purple-600 mb-4">{story.title}</h1>
-            <p className="text-lg text-gray-800 mb-6">{story.description}</p>
-            <p className="text-sm text-gray-600">
-              Written by: <span className="font-semibold">{story.created_by.username}</span>
-            </p>
-            <p className="text-sm text-gray-500 mt-2">
-              Published on: <span className="font-semibold">{formatDate(story.created_at)}</span>
-            </p>
+        <div className="max-w-full sm:max-w-3xl mx-auto bg-gray-800 p-4 sm:p-8 rounded-lg shadow-lg">
+          <img 
+            src={story.image} 
+            alt={story.title} 
+            className="w-full h-auto mb-4 sm:mb-6 rounded-lg shadow-md"
+          />
+          <h1 className="text-3xl sm:text-5xl font-bold text-[#D388F8] mb-4">{story.title}</h1>
+          <p className="text-base sm:text-lg text-gray-300 mb-4 sm:mb-6 leading-relaxed">{story.description}</p>
+          <div className="text-sm text-gray-400 mt-4 sm:mt-6">
+            <p>Written by: <span className="font-semibold">{story.created_by.username}</span></p>
+            <p>Published on: <span className="font-semibold">{formatDate(story.created_at)}</span></p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );

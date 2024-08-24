@@ -1,18 +1,28 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-function StoryCard({ id, image, title, excerpt, fullStory }) {
+function StoryCard({
+  id,
+  image,
+  title,
+  excerpt,
+  fullStory,
+  bgColor = '#FFFFFF',
+  headcolor = '#1F2937',
+  paracolor = '#4B5563',
+  buttoncolor = '#FFEF20',
+  hoverColor = '#F59E0B'
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [story, setStory] = useState(null);
   const [error, setError] = useState(null);
+  const [isHovered, setIsHovered] = useState(false); // For handling hover state
 
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
   };
-  console.log(id)
 
   useEffect(() => {
-    console.log("Fetching story with ID:", id);  // Debugging line
     if (id) {
       const fetchStory = async () => {
         try {
@@ -21,29 +31,35 @@ function StoryCard({ id, image, title, excerpt, fullStory }) {
             throw new Error('Story not found');
           }
           const data = await response.json();
-          console.log("Fetched story data:", data);  // Debugging line
           setStory(data);
         } catch (error) {
-          console.error("Fetch error:", error);  // Debugging line
           setError(error.message);
         }
       };
-  
+
       fetchStory();
     }
   }, [id]);
 
-  console.log(story)
-
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer">
       <img src={image} alt={title} className="w-full h-48 object-cover" />
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-gray-800">{title}</h3>
-        <p className="text-gray-600 mt-2 mb-3">
+      <div className="p-4" style={{ backgroundColor: bgColor }}>
+        <h3 className="text-lg font-bold" style={{ color: headcolor }}>
+          {title}
+        </h3>
+        <p className="mt-2 mb-3" style={{ color: paracolor }}>
           {isExpanded ? fullStory : excerpt}
         </p>
-        <Link to={`/story/${id}`} className="text-black font-semibold rounded bg-[#FFEF20] p-1 px-2 hover:bg-yellow-400 mt-5">
+        <Link
+          to={`/story/${id}`}
+          className="text-black rounded p-1 px-2 mt-5"
+          style={{
+            backgroundColor: isHovered ? hoverColor : buttoncolor,
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           Read More
         </Link>
       </div>

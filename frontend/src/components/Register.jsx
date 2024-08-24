@@ -13,8 +13,10 @@ function Register() {
   });
   const [errors, setErrors] = useState(null);
   const [success, setSuccess] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility toggle
-  const [showPassword2, setShowPassword2] = useState(false); // State for confirm password visibility toggle
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State for loading
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // State for success popup
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -27,7 +29,8 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setIsLoading(true); // Set loading state to true
+
     try {
       const response = await axios.post('http://localhost:8000/register/', {
         email: formData.email,
@@ -37,6 +40,7 @@ function Register() {
       });
       setSuccess('Registration successful! Please log in.');
       setErrors(null);
+      setShowSuccessPopup(true); // Show success popup
     } catch (error) {
       if (error.response && error.response.data) {
         setErrors(error.response.data);
@@ -44,9 +48,10 @@ function Register() {
         setErrors({ non_field_errors: 'An unexpected error occurred' });
       }
       setSuccess('');
+    } finally {
+      setIsLoading(false); // Set loading state to false
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-black">
@@ -176,6 +181,31 @@ function Register() {
           </div>
         </section>
       </div>
+
+      {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="bg-gray-800 text-black p-8 rounded-lg shadow-lg flex flex-col items-center">
+            <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 border-t-4 border-[#FFEF20] rounded-full" role="status">
+            </div>
+            <p className="text-lg mt-4 text-[#FFEF20]">Registration is ongoing...</p>
+          </div>
+        </div>
+      )}
+
+      {showSuccessPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60">
+          <div className="bg-gray-800 text-white p-8 rounded-lg shadow-lg flex flex-col items-center">
+            <h3 className="text-xl font-semibold mb-4">Registration Successful!</h3>
+            <p className="mb-4">Your registration was successful. You can now log in to your account.</p>
+            <Link
+              to="/login"
+              className="bg-[#FFEF20] text-black py-2 px-4 rounded-lg font-semibold hover:bg-[#E86B00]"
+            >
+              Login
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

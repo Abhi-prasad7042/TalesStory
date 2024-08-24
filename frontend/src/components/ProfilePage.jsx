@@ -116,8 +116,8 @@ function ProfilePage() {
   }
 
   if (error) {
-    // navigate('/login');
-    return <div>{error}</div>;
+    navigate('/login');
+    return null;
   }
 
   return (
@@ -220,6 +220,20 @@ function ProfilePage() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Start Your Story Section */}
+        <section className="bg-gray-800 text-white py-10 px-6 mt-10 rounded-lg shadow-lg text-center">
+          <h2 className="text-4xl font-bold text-[#D388F8] mb-6">Start Your Own Story</h2>
+          <p className="text-lg text-gray-300 mb-6">
+            Every story begins with a single step. Share your creative thoughts, collaborate with others, or build your own masterpiece. Ready to begin?
+          </p>
+          <button
+            onClick={() => navigate('/newstory')}
+            className="bg-[#FFEF20] text-black py-2 px-6 rounded-full text-lg font-bold hover:bg-[#ffb8ff] transition-all duration-300"
+          >
+            Upload Your Story
+          </button>
         </section>
       </div>
 

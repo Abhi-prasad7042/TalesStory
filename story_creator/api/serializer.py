@@ -74,3 +74,8 @@ class ContributionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contribution
         fields = ['id', 'story', 'contributed_by', 'contribution_text', 'contributed_at']
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = ['subject', 'message']

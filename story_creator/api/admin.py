@@ -25,8 +25,15 @@ class ContributionAdmin(admin.ModelAdmin):
     list_filter = ['contributed_by', 'contributed_at']
     readonly_fields = ['contributed_at']  # Make contributed_at read-only
 
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['user', 'subject', 'created_at']
+    search_fields = ['user__email', 'subject']
+    list_filter = ['created_at']
+    readonly_fields = ['created_at']
+
 # Register models with admin site
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Story, StoryAdmin)
 admin.site.register(Contribution, ContributionAdmin)
+admin.site.register(Contact, ContactAdmin) 

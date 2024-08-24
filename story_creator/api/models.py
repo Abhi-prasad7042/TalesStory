@@ -64,3 +64,12 @@ class Contribution(models.Model):
 
     def __str__(self):
         return f'Contribution by {self.contributed_by.username} to "{self.story.title}"'
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.user.email} - {self.subject}"

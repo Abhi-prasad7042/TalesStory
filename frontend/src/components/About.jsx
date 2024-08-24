@@ -28,7 +28,7 @@ function About() {
         </div>
 
         <div className="text-center mt-12">
-          <a href="/" className="bg-[#D388F8] text-white py-2 px-6 rounded-lg font-semibold hover:bg-[#a565d1]">
+          <a href="/" className="bg-[#FFEF20] text-black py-2 px-6 rounded-lg font-semibold hover:bg-yellow-500">
             Back to Home
           </a>
         </div>

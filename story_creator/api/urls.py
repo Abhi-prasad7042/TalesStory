@@ -17,5 +17,6 @@ urlpatterns = [
     
     # Contribution URLs
     path('api/contributions/', ContributionListCreateView.as_view(), name='contribution-list-create'),
-    path('api/contributions/<int:pk>/', ContributionRetrieveUpdateDestroyView.as_view(), name='contribution-detail')
+    path('api/contributions/<int:pk>/', ContributionRetrieveUpdateDestroyView.as_view(), name='contribution-detail'),
+    path('api/contact/', contact_view, name='contact'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

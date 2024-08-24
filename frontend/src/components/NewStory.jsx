@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NewStory = () => {
   const [photo, setPhoto] = useState(null);
@@ -7,11 +8,16 @@ const NewStory = () => {
   const [story, setStory] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showPopup, setShowPopup] = useState(false); // State for pop-up visibility
+  const [popupMessage, setPopupMessage] = useState(''); // State for pop-up message
+  const [storyId, setStoryId] = useState(null); // State for uploaded story ID
+
+  const navigate = useNavigate();
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setPhoto(file); // Store the File object instead of URL
+      setPhoto(file);
     }
   };
 
@@ -22,23 +28,40 @@ const NewStory = () => {
     formData.append('title', heading);
     formData.append('description', story);
     if (photo) {
-      formData.append('image', photo); // Append the File object
+      formData.append('image', photo);
     }
 
     try {
       const token = localStorage.getItem('accessToken');
+      if (!token) {
+        setPopupMessage('Please log in to upload a story.'); // Update message for the pop-up
+        setShowPopup(true); // Show pop-up if not logged in
+        return;
+      }
+
       const response = await axios.post('http://127.0.0.1:8000/api/stories/', formData, {
         headers: {
           'Authorization': `Bearer ${token}`,
-          // Remove the Content-Type header; axios sets it automatically for FormData
         },
       });
 
+      setStoryId(response.data.id); // Set story ID from response
       setSuccess('Story uploaded successfully!');
-      console.log('Story response:', response.data);
+      setError(null); // Clear any previous errors
+      setPopupMessage('Your story has been uploaded successfully!');
+      setShowPopup(true); // Show success pop-up
     } catch (err) {
-      setError('Failed to upload story');
+      setPopupMessage('Failed to upload story. Please try again.'); // Update message for the pop-up
+      setShowPopup(true); // Show pop-up on error
+      setSuccess(null); // Clear any previous success messages
       console.error('Error response:', err.response ? err.response.data : err.message);
+    }
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    if (success && storyId) {
+      navigate(`/story/${storyId}`); // Redirect to StoryDetail page with the uploaded story ID
     }
   };
 
@@ -99,15 +122,38 @@ const NewStory = () => {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-[#D388F8] text-white py-2 px-6 rounded-lg hover:bg-[#a565d1] transition duration-300 shadow-md"
+                className="bg-[#D388F8] text-black py-2 px-6 rounded-lg hover:bg-[#a565d1] transition duration-300 shadow-md"
               >
                 Upload
               </button>
             </div>
           </div>
         </form>
-        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         {success && <p className="text-green-500 text-center mt-4">{success}</p>}
+
+        {/* Pop-Up Modal */}
+        {showPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white text-black p-6 rounded-lg relative max-w-md mx-auto">
+              <button
+                onClick={handleClosePopup}
+                className="absolute top-2 right-2 text-black text-3xl font-bold rounded-full w-10 h-10 flex items-center justify-center"
+                title="Close"
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold mb-4">{popupMessage}</h2>
+              {success && (
+                <button
+                  onClick={handleClosePopup}
+                  className="bg-[#D388F8] text-black py-2 px-4 rounded-lg font-semibold hover:bg-[#a565d1]"
+                >
+                  Read Your Story
+                </button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

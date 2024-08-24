@@ -11,6 +11,8 @@ import ProfilePage from './components/ProfilePage.jsx'
 import StoryDetail from './components/StoryDetail.jsx'
 import About from './components/About.jsx'
 import Contact from './components/Contact.jsx'
+import AllStories from './components/AllStories.jsx'
+import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 
 const appRouter = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ const appRouter = createBrowserRouter([
       {
         path: "/profile",
         element:  <ProfilePage/>
+      },
+      {
+        path: "/allstory",
+        element:  <AllStories/>
+      },
+      {
+        path: "/PrivacyPolicy",
+        element:  <PrivacyPolicy/>
       },
       {
         path:"/story/:id",
